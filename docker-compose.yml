@@ -1,0 +1,15 @@
+services:
+  heavyai:
+    image: heavyai/heavyai-ee-cuda:latest
+    restart: always
+    volumes:
+      - /var/lib/heavyai:/var/lib/heavyai
+    ports:
+      - "6273-6278:6273-6278"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
