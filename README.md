@@ -26,12 +26,10 @@ This section defines the **HeavyAI** service:
 4. **`ports`**  
    - **`6273-6278:6273-6278`**:  
      Maps a range of ports (6273 to 6278) on the host to the same ports on the container. These ports are used by HeavyAI for different services:  
-     - **6273**: HeavyAI Server  
-     - **6274**: SQL Client  
-     - **6275**: HTTP Server  
-     - **6276**: WebSocket Server  
-     - **6277**: Thrift Protocol  
-     - **6278**: Additional services
+     - **6273**: **heavy web server** Used to access Heavy Immerse.
+     - **6274**: **heavydb tcp**  Used by connectors (heavyai, omnisql, odbc, and jdbc) to access the more efficient Thrift API.
+     - **6276**: **heavy web server**  Used to access the HTTP/JSON thrift API.
+     - **6278**: **heavydb http** Used to directly access the HTTP/binary thrift API, without having to proxy through heavy_web_server. Recommended for debugging use only.
 
 5. **`deploy`**  
    - This section provides deployment-specific settings, particularly for GPU acceleration:  
