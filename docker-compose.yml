@@ -5,7 +5,7 @@ services:
     volumes:
       - /var/lib/heavyai:/var/lib/heavyai
     ports:
-      - "6273-6278:6273-6278"
+      - "6273-6279:6273-6279"
     deploy:
       resources:
         reservations:
