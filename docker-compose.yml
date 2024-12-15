@@ -1,6 +1,7 @@
 services:
   heavyai:
     image: heavyai/heavyai-ee-cuda:latest
+    container_name: heavyai
     restart: always
     volumes:
       - /var/lib/heavyai:/var/lib/heavyai
