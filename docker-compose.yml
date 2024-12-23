@@ -25,8 +25,8 @@ services:
         condition: service_healthy
     entrypoint: >
       /bin/bash -c "[ -f /var/lib/heavyai/storage/catalogs/system_catalog ] 
-      || /opt/heavyai/bin/initheavy --data /var/lib/heavyai/storage;
-      /opt/heavyai/bin/heavydb --config /var/lib/heavyai/heavy.conf"
+      || /opt/heavyai/bin/initheavy --data ${HEAVY_STORAGE_DIR};
+      /opt/heavyai/bin/heavydb --config ${HEAVYDB_CONFIG_FILE}"
     # entrypoint: /bin/bash -c '/opt/heavyai/bin/initheavy --data /var/lib/heavyai/storage &&/opt/heavyai/bin/heavydb --config /var/lib/heavyai/heavy.conf'
     volumes:
       - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
