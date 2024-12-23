@@ -10,7 +10,8 @@ c.JupyterHub.hub_ip = '0.0.0.0'
 c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
 c.DockerSpawner.image = os.environ["DOCKER_NOTEBOOK_IMAGE"]
 c.DockerSpawner.network_name = os.environ["DOCKER_NETWORK_NAME"]
-c.DockerSpawner.notebook_dir = os.environ.get("DOCKER_NOTEBOOK_DIR", "/home/jovyan/work")
+notebook_dir = os.environ.get("DOCKER_NOTEBOOK_DIR", "/home/jovyan/work")
+c.DockerSpawner.notebook_dir = notebook_dir
 
 # Volume mounts
 c.DockerSpawner.volumes = {

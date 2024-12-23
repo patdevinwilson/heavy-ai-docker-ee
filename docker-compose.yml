@@ -1,18 +1,37 @@
 services:
+  config-watcher:
+    image: debian:bullseye-slim
+    container_name: config-watcher
+    volumes:
+      - ./scripts/config-watcher.sh:/config-watcher.sh
+      - ./configs:/configs
+      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
+    entrypoint: /bin/bash -c 'apt-get update && apt-get install -y gettext-base && chmod +x /config-watcher.sh && /config-watcher.sh'
+    healthcheck:
+      test: ["CMD", "test", "-d", "${HEAVY_CONFIG_BASE}"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+      start_period: 2s
+    env_file: .env
+
   heavydb:
     container_name: heavydb
-    image: ${HEAVYAI_IMAGE}
+    image: heavyai/heavyai-ee-cuda:latest
     restart: unless-stopped
     ipc: shareable
-    entrypoint: /bin/bash -c '/opt/heavyai/bin/heavydb --config ${HEAVY_CONFIG_BASE}/heavydb.conf'
+    depends_on:
+      config-watcher:
+        condition: service_healthy
+    entrypoint: /bin/bash -c '/opt/heavyai/bin/heavydb ${HEAVY_STORAGE_DIR} --config {{HEAVYDB_CONFIG_FILE}}'
     volumes:
-      - ./data/heavyai:/var/lib/heavyai
-      - ./configs/heavydb.conf:${HEAVY_CONFIG_BASE}/heavydb.conf:ro
+      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
     networks:
       - heavy-network
     ports:
       - "${HEAVYDB_PORT}:${HEAVYDB_PORT}"
       - "${HEAVYDB_BACKEND_PORT}:${HEAVYDB_BACKEND_PORT}"
+      - "${HEAVYDB_CALCITE_PORT}:${HEAVYDB_CALCITE_PORT}"
     deploy:
       resources:
         reservations:
@@ -20,39 +39,49 @@ services:
             - driver: nvidia
               count: ${GPU_COUNT}
               capabilities: [gpu]
+    env_file: .env
 
   immerse:
     container_name: immerse
-    image: ${HEAVYAI_IMAGE}
+    image: heavyai/heavyai-ee-cuda:latest
     restart: unless-stopped
     ipc: shareable
-    entrypoint: /bin/bash -c '/opt/heavyai/bin/heavy_web_server --config ${HEAVY_CONFIG_BASE}/immerse/immerse.conf'
+    depends_on:
+      config-watcher:
+        condition: service_healthy
+      heavydb:
+        condition: service_started
+    entrypoint: /bin/bash -c '/opt/heavyai/bin/heavy_web_server --config ${HEAVY_IMMERSE_CONFIG_FILE}'
     volumes:
-      - ./data/heavyai:/var/lib/heavyai
-      - ./configs/immerse.conf:${HEAVY_CONFIG_BASE}/immerse/immerse.conf:ro
-      - ./configs/servers.json:${HEAVY_CONFIG_BASE}/immerse/servers.json:ro
+      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
     networks:
       - heavy-network
     expose:
       - "${IMMERSE_PORT}"
+    env_file: .env
 
-  iq:
+  heavyiq:
     container_name: heavyiq
-    image: ${HEAVYAI_IMAGE}
+    image: heavyai/heavyai-ee-cuda:latest
     restart: unless-stopped
     ipc: shareable
+    depends_on:
+      config-watcher:
+        condition: service_healthy
+      heavydb:
+        condition: service_started
     environment:
-      - CONFIG_FILE=${HEAVY_CONFIG_BASE}/iq/iq.conf
-      - MAPD_DATA=${HEAVY_CONFIG_BASE}/iq
+      - CONFIG_FILE=${HEAVY_IQ_CONFIG_FILE}
+      - MAPD_DATA=${HEAVY_IQ_LOCATION}
       - MAPD_HEAVYIQ_PORT=${HEAVYIQ_PORT}
     entrypoint: /bin/bash -c '/opt/heavyai/scripts/ee/start_heavyiq.sh && tail -f /dev/null'
     volumes:
-      - ./data/heavyai:/var/lib/heavyai
-      - ./configs/iq.conf:${HEAVY_CONFIG_BASE}/iq/iq.conf:ro
+      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
     networks:
       - heavy-network
     expose:
       - "${HEAVYIQ_PORT}"
+    env_file: .env
 
   jupyterhub:
     build:
@@ -65,8 +94,7 @@ services:
     volumes:
       - ./configs/jupyterhub/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro
       - /var/run/docker.sock:/var/run/docker.sock:rw
-      - ./data/jupyterhub:/data
-      - ./data/heavyai:/var/lib/heavyai:ro
+      - jupyterhub-data:/data
     environment:
       - JUPYTERHUB_ADMIN=${JUPYTERHUB_ADMIN}
       - DOCKER_NETWORK_NAME=heavy-network
@@ -75,7 +103,8 @@ services:
     networks:
       - heavy-network
     expose:
-      - "8000"
+      - "${JUPYTERHUB_PORT}"
+    env_file: .env
 
   caddy:
     image: caddy:latest
@@ -85,11 +114,17 @@ services:
       - "443:443"
     volumes:
       - ./configs/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./data/caddy/data:/data
-      - ./data/caddy/config:/config
+      - caddy-data:/data
+      - caddy-config:/config
     networks:
       - heavy-network
+    env_file: .env
 
 networks:
   heavy-network:
     name: heavy-network
+
+volumes:
+  jupyterhub-data:
+  caddy-data:
+  caddy-config:
