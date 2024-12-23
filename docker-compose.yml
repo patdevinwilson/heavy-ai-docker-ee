@@ -23,7 +23,11 @@ services:
     depends_on:
       config-watcher:
         condition: service_healthy
-    entrypoint: /bin/bash -c '/opt/heavyai/bin/heavydb ${HEAVY_STORAGE_DIR} --config {{HEAVYDB_CONFIG_FILE}}'
+    entrypoint: >
+      /bin/bash -c "[ -f /var/lib/heavyai/storage/catalogs/system_catalog ] 
+      || /opt/heavyai/bin/initheavy --data /var/lib/heavyai/storage;
+      /opt/heavyai/bin/heavydb --config /var/lib/heavyai/heavy.conf"
+    # entrypoint: /bin/bash -c '/opt/heavyai/bin/initheavy --data /var/lib/heavyai/storage &&/opt/heavyai/bin/heavydb --config /var/lib/heavyai/heavy.conf'
     volumes:
       - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
     networks:
