@@ -2,6 +2,7 @@ services:
   config-watcher:
     image: debian:bullseye-slim
     container_name: config-watcher
+    user: root
     volumes:
       - ./scripts/config-watcher.sh:/config-watcher.sh
       - ./configs:/configs
@@ -24,10 +25,11 @@ services:
       config-watcher:
         condition: service_healthy
     entrypoint: >
-      /bin/bash -c "[ -f /var/lib/heavyai/storage/catalogs/system_catalog ] 
-      || /opt/heavyai/bin/initheavy --data ${HEAVY_STORAGE_DIR};
+      /bin/bash -c "mkdir -p ${HEAVY_STORAGE_DIR} &&
+      chmod -R 755 ${HEAVY_STORAGE_DIR} &&
+      [ -f ${HEAVY_STORAGE_DIR}/catalogs/system_catalog ] || 
+      /opt/heavyai/bin/initheavy --data ${HEAVY_STORAGE_DIR};
       /opt/heavyai/bin/heavydb --config ${HEAVYDB_CONFIG_FILE}"
-    # entrypoint: /bin/bash -c '/opt/heavyai/bin/initheavy --data /var/lib/heavyai/storage &&/opt/heavyai/bin/heavydb --config /var/lib/heavyai/heavy.conf'
     volumes:
       - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
     networks:
