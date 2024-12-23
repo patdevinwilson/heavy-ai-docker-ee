@@ -15,7 +15,7 @@
       "ui/enable_dashboard_shared_custom_sql": true,
       "ui/enable_custom_source_manager": true,
       "ui/geojoined-bounding-boxes": true,
-      "ui/hide_deprecated_chart_types": true,
+      "ui/hide_deprecated_chart_types": false,
       "ui/map_export_limit": 50000000,
       "ui/table_export_limit": 50000000,
       "performance/crossfilter_pause_chart_button": true,
@@ -36,27 +36,9 @@
       "dev/SQLLogging": true
     },
     "customStyles": {
-      "title": "HeavyAI Dashboard",
-      "colors": {
-        "solid": [
-          "#4285F4",
-          "#34A853",
-          "#FBBC05",
-          "#EA4335",
-          "#5C6BC0",
-          "#7CB342",
-          "#FFA726",
-          "#EF5350"
-        ],
-        "ordinal": [
-          ["#4285F4", "#34A853", "#FBBC05", "#EA4335"],
-          ["#5C6BC0", "#7CB342", "#FFA726", "#EF5350"]
-        ],
-        "quantitative": [
-          ["#4285F4", "#34A853"],
-          ["#FBBC05", "#EA4335"]
-        ]
-      }
+      "title": "GEOMDA-AI Dashboard",
+      "logoURL": "https://raw.githubusercontent.com/geomda-ai/branding/refs/heads/main/Geomdaai_black.png",
+      "darkThemeLogoURL": "https://raw.githubusercontent.com/geomda-ai/branding/refs/heads/main/Geomdaai_black.png"
     }
   }
 ]
