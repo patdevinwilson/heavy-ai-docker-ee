@@ -1,0 +1,14 @@
+{
+    email {$EMAIL}
+    acme_ca {$SSL_PROVIDER}
+}
+
+{$DOMAIN} {
+    handle /jupyter/* {
+        reverse_proxy jupyterhub:8000
+    }
+
+    handle /* {
+        reverse_proxy immerse:{$IMMERSE_PORT}
+    }
+}
