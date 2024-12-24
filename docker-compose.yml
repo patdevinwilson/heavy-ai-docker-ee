@@ -5,7 +5,7 @@ services:
     volumes:
       - ./scripts/config-watcher.sh:/config-watcher.sh
       - ./configs:/configs
-      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
+      - ${HEAVY_CONFIG_BASE}:${HEAVY_CONFIG_BASE}
     entrypoint: /bin/bash -c 'apt-get update && apt-get install -y gettext-base && chmod +x /config-watcher.sh && /config-watcher.sh'
     healthcheck:
       test: ["CMD", "test", "-d", "${HEAVY_CONFIG_BASE}"]
@@ -30,7 +30,7 @@ services:
       /opt/heavyai/bin/initheavy --data ${HEAVY_STORAGE_DIR};
       /opt/heavyai/bin/heavydb --config ${HEAVYDB_CONFIG_FILE}"
     volumes:
-      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
+      - ${HEAVY_CONFIG_BASE}:${HEAVY_CONFIG_BASE}
     networks:
       - heavy-network
     ports:
@@ -58,7 +58,7 @@ services:
         condition: service_started
     entrypoint: /bin/bash -c '/opt/heavyai/bin/heavy_web_server --config ${HEAVY_IMMERSE_CONFIG_FILE}'
     volumes:
-      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
+      - ${HEAVY_CONFIG_BASE}:${HEAVY_CONFIG_BASE}
     networks:
       - heavy-network
     expose:
@@ -81,7 +81,7 @@ services:
       - MAPD_HEAVYIQ_PORT=${HEAVYIQ_PORT}
     entrypoint: /bin/bash -c '/opt/heavyai/scripts/ee/start_heavyiq.sh && tail -f /dev/null'
     volumes:
-      - ${HEAVY_CONFIG_BASE}:/var/lib/heavyai
+      - ${HEAVY_CONFIG_BASE}:${HEAVY_CONFIG_BASE}
     networks:
       - heavy-network
     expose:
