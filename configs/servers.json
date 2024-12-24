@@ -32,6 +32,7 @@
       "ui/enable_geo_joins": true,
       "ui/enable_crossfilter_replay": true,
       "ui/enable_chart_addons": true,
+      "ui/enable_3d_chart": true,
       "dev/enable_notebook_ui_sql_editor": true,
       "dev/SQLLogging": true
     },

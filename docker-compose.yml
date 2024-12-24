@@ -105,7 +105,7 @@ services:
       - DOCKER_NETWORK_NAME=heavy-network
       - DOCKER_NOTEBOOK_IMAGE=${DOCKER_NOTEBOOK_IMAGE}
       - DOCKER_NOTEBOOK_DIR=${DOCKER_NOTEBOOK_DIR}
-      - DOCKER_SPAWN_CMD=start-singleuser.sh
+      - DOCKER_SPAWN_CMD=${DOCKER_SPAWN_CMD}
     networks:
       - heavy-network
     expose:
