@@ -2,7 +2,6 @@ services:
   config-watcher:
     image: debian:bullseye-slim
     container_name: config-watcher
-    user: root
     volumes:
       - ./scripts/config-watcher.sh:/config-watcher.sh
       - ./configs:/configs
