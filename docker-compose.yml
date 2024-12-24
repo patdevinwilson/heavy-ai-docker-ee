@@ -17,7 +17,12 @@ services:
 
   heavydb:
     container_name: heavydb
-    image: heavyai/heavyai-ee-cuda:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.odbc
+      args:
+        HEAVYAI_IMAGE: ${HEAVYAI_IMAGE}
+        HEAVYAI_VERSION: ${HEAVYAI_VERSION}
     restart: unless-stopped
     ipc: shareable
     depends_on:
@@ -31,6 +36,8 @@ services:
       /opt/heavyai/bin/heavydb --config ${HEAVYDB_CONFIG_FILE}"
     volumes:
       - ${HEAVY_CONFIG_BASE}:${HEAVY_CONFIG_BASE}
+      - ./configs/odbcinst.ini:/etc/odbcinst.ini
+      - ./configs/odbc.ini:/etc/odbc.ini
     networks:
       - heavy-network
     ports:
@@ -48,7 +55,7 @@ services:
 
   immerse:
     container_name: immerse
-    image: heavyai/heavyai-ee-cuda:latest
+    image: ${HEAVYAI_IMAGE}:${HEAVYAI_VERSION}
     restart: unless-stopped
     ipc: shareable
     depends_on:
@@ -67,7 +74,7 @@ services:
 
   heavyiq:
     container_name: heavyiq
-    image: heavyai/heavyai-ee-cuda:latest
+    image: ${HEAVYAI_IMAGE}:${HEAVYAI_VERSION}
     restart: unless-stopped
     ipc: shareable
     depends_on:
