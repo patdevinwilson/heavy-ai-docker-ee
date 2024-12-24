@@ -1,19 +1,18 @@
-# heavy-ai-docker-ee
-
 # HeavyAI Enterprise Docker Stack
 
 A production-ready Docker Compose setup for HeavyAI Enterprise with JupyterHub integration. This stack provides a complete environment running HeavyDB, HeavyIQ, Immerse, and JupyterHub with GPU support.
 
-## Features
+## Key Features
 
-- 🚀 Service Oriented Architecture (SOA)
-- 🔒 SSL/TLS with automatic certificate management via Caddy
-- 🎯 Single domain setup with path-based routing
-- 🎮 GPU support for HeavyDB (nvidia cuda runtime via docker)
-- 📊 JupyterHub integration
-- 🔄 All services communicate over internal Docker network
-- 💾 Organized data storage with relative paths
-- ⚙️ Fully configurable via environment variables
+- 🚀 Microservices architecture with Docker Compose
+- 🔒 Built-in SSL/TLS via Caddy reverse proxy
+- 🎯 Single domain with path-based routing
+- 🎮 NVIDIA GPU acceleration for HeavyDB
+- 📊 Integrated JupyterHub for data analysis
+- 🔌 ODBC driver support for external connections
+- 🔄 Automatic configuration management
+- 💾 Persistent storage with Docker volumes
+- ⚙️ Environment-based configuration
 
 ## Prerequisites
 
@@ -29,31 +28,36 @@ A production-ready Docker Compose setup for HeavyAI Enterprise with JupyterHub i
 ```
 .
 ├── configs/                   # Configuration files
-│   ├── Caddyfile            # Caddy reverse proxy config
-│   ├── heavydb.conf         # HeavyDB configuration
-│   ├── immerse.conf         # Immerse configuration
-│   ├── iq.conf             # HeavyIQ configuration
-│   ├── jupyterhub/         # JupyterHub configs
+│   ├── Caddyfile             # Caddy reverse proxy config
+│   ├── heavydb.conf          # HeavyDB configuration
+│   ├── immerse.conf          # Immerse configuration
+│   ├── iq.conf              # HeavyIQ configuration
+│   ├── jupyterhub/          # JupyterHub configs
 │   │   ├── Dockerfile.jupyterhub
 │   │   └── jupyterhub_config.py
-│   └── servers.json        # Immerse servers configuration
-├── data/                    # Data directories (gitignored)
-│   ├── caddy/              # Caddy data
-│   │   ├── config/        # Caddy config storage
-│   │   └── data/         # Caddy data storage
-│   ├── heavyai/            # HeavyAI data
-│   │   ├── storage/      # HeavyDB storage
-│   │   ├── import/       # Import directory
-│   │   ├── export/       # Export directory
-│   │   ├── iq/          # HeavyIQ data
-│   │   └── immerse/     # Immerse data
-│   └── jupyterhub/        # JupyterHub data
-├── docker-compose.yml      # Main compose file
-├── .env.example           # Example environment variables
-├── .gitignore            # Git ignore file
-├── README.md             # This file
-└── setup.sh             # Setup script
+│   ├── servers.json         # Immerse servers configuration
+│   ├── odbcinst.ini        # ODBC driver configuration
+│   └── odbc.ini            # ODBC connection configuration
+├── scripts/                  # Utility scripts
+│   └── config-watcher.sh    # Configuration management script
+├── Dockerfile.odbc          # Custom Dockerfile for ODBC support
+├── docker-compose.yml       # Main compose file
+├── .env.example            # Example environment variables
+├── .gitignore             # Git ignore file
+└── README.md              # Documentation
 ```
+
+## Components and Services
+
+| Service     | Description | Internal Port |
+|------------|-------------|---------------|
+| HeavyDB    | Main database engine with GPU acceleration | 6274 |
+| Immerse    | Web-based visualization interface | 6273 |
+| HeavyIQ    | Query engine and data processing | 6275 |
+| JupyterHub | Interactive Python notebooks environment | 8000 |
+| Caddy      | Reverse proxy with automatic HTTPS | 80, 443 |
+| Config Watcher | Configuration management service | - |
+
 
 ## Quick Start
 
@@ -99,14 +103,12 @@ Key environment variables that need to be configured:
 DOMAIN=example.com
 
 # Heavy.AI image
-HEAVYAI_IMAGE=heavyai/heavyai-ee-cuda:latest
+HEAVYAI_IMAGE=heavyai/heavyai-ee-cuda
+HEAVYAI_VERSION=latest
 
 # GPU configuration
-GPU_COUNT=1
+GPU_COUNT=all
 GPU_DEVICE_IDS=0
-
-# JupyterHub configuration
-JUPYTERHUB_ADMIN=admin
 ```
 
 See `.env.example` for all available options.
@@ -118,18 +120,11 @@ After deployment, services will be available at:
 - Immerse UI: `https://your-domain.com/`
 - JupyterHub: `https://your-domain.com/jupyter`
 
-## GPU Support
-
-The stack is configured to use NVIDIA GPUs. Make sure you have:
-
-1. NVIDIA drivers installed
-2. NVIDIA Container Toolkit installed
-3. Docker configured to use NVIDIA runtime
 
 You can adjust GPU allocation in the `.env` file:
 
 ```bash
-GPU_COUNT=1  # Number of GPUs to allocate
+GPU_COUNT=all  # Number of GPUs to allocate
 GPU_DEVICE_IDS=0  # Specific GPU device IDs to use
 ```
 
@@ -138,24 +133,42 @@ GPU_DEVICE_IDS=0  # Specific GPU device IDs to use
 - All services communicate over an internal Docker network
 - SSL/TLS certificates are automatically managed by Caddy
 - Services are not exposed directly, only through the reverse proxy
-- JupyterHub uses authentication (configure in production)
+- JupyterHub uses authentication (configure in production it's dummy user based for now)
 
 ## Data Persistence
 
-All data is stored in the `./data` directory:
+All data is stored in Docker volumes and mounted directories under `/var/lib/heavyai`:
 
-- `data/heavyai/`: HeavyDB, Immerse, and HeavyIQ data
-- `data/jupyterhub/`: JupyterHub data
-- `data/caddy/`: Caddy certificates and config
+- `/var/lib/heavyai/storage/`: Main HeavyDB storage
+  - `/var/lib/(heavyai/immerse)/storage/import/`: Data import directory
+  - `/var/lib/(heavyai/immerse)/storage/export/`: Data export directory
+- `/var/lib/heavyai/iq/`: HeavyIQ data and configuration
+- `/var/lib/heavyai/immerse/`: Immerse data and configuration
+
+Additional volumes:
+- `jupyterhub-data`: JupyterHub user data and configurations
+- `caddy-data`: Caddy SSL certificates
+- `caddy-config`: Caddy server configuration
+
+These paths can be customized through environment variables in the `.env` file:
+```bash
+HEAVY_CONFIG_BASE=/var/lib/heavyai
+HEAVY_STORAGE_DIR=${HEAVY_CONFIG_BASE}/storage
+HEAVYDB_IMPORT_PATH=${HEAVY_STORAGE_DIR}/import
+HEAVYDB_EXPORT_PATH=${HEAVY_STORAGE_DIR}/export
+HEAVY_IQ_LOCATION=${HEAVY_CONFIG_BASE}/iq
+HEAVY_IMMERSE_LOCATION=${HEAVY_CONFIG_BASE}/immerse
+```
 
 ## Development
 
 To modify configurations:
 
 1. Edit files in the `configs/` directory
-2. Restart the affected service:
+2. stop and start the affected service:
 ```bash
-docker compose restart <service-name>
+docker compose stop <service-name>
+docker compose start <service-name>
 ```
 
 ## Production Deployment
@@ -190,11 +203,17 @@ Common issues and solutions:
 
 ## References
 - [HEAVY.AI Installation using Docker on Ubuntu](https://docs.heavy.ai/installation-and-configuration/installation/install-docker/docker-enterprise-edition-gpu)
-- [Install NVIDIA Drivers and Vulkan on Ubuntu](https://docs.heavy.ai/installation-and-configuration/installation/installing-on-ubuntu/install-nvidia-drivers-and-vulkan-on-ubuntu))
+- [Install NVIDIA Drivers and Vulkan on Ubuntu](https://docs.heavy.ai/installation-and-configuration/installation/installing-on-ubuntu/install-nvidia-drivers-and-vulkan-on-ubuntu)
 - [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 - [Docker Compose File Reference](https://docs.docker.com/compose/compose-file/)
 
----
+## Helpful Commands and Queries
 
-This documentation provides a detailed guide for deploying HeavyAI with GPU support using Docker Compose.
-
+- To enter to heavysql cli inside heavydb container:
+```bash
+docker exec -it heavydb /opt/heavyai/bin/heavysql heavyai -u admin -p 'HyperInteractive'
+```
+- To change password:
+```bash
+ALTER USER admin (password = 'YourNewPassword!!');
+```
