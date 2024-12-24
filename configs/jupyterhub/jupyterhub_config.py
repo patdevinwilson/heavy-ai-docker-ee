@@ -56,4 +56,4 @@ c.JupyterHub.cookie_secret_file = "/data/jupyterhub_cookie_secret"
 c.JupyterHub.db_url = "sqlite:////data/jupyterhub.sqlite"
 
 # Authenticate users with Dummy Authenticator for testing (remove for production)
-c.JupyterHub.authenticator_class = "dummyauthenticator.DummyAuthenticator"
+c.JupyterHub.authenticator_class = "dummy"
