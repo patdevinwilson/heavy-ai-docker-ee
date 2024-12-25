@@ -43,7 +43,6 @@ A production-ready Docker Compose setup for HeavyAI Enterprise with JupyterHub i
 ├── Dockerfile.odbc          # Custom Dockerfile for ODBC support
 ├── docker-compose.yml       # Main compose file
 ├── .env.example            # Example environment variables
-├── .gitignore             # Git ignore file
 └── README.md              # Documentation
 ```
 
@@ -63,22 +62,23 @@ A production-ready Docker Compose setup for HeavyAI Enterprise with JupyterHub i
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/heavyai-enterprise-stack.git
-cd heavyai-enterprise-stack
+git clone https://github.com/geomda-ai/heavy-ai-docker-ee.git
+cd heavy-ai-docker-ee
 ```
 
-2. Run the setup script:
-```bash
-chmod +x setup.sh
-./setup.sh
-```
-
-3. Configure your environment:
+2. Configure your environment:
 ```bash
 cp .env.example .env
 # Edit .env with your settings
 nano .env
 ```
+
+3. Change your domain name and email address in the `.env` file:
+```bash
+DOMAIN=yourdomain.com
+EMAIL=your_email_address
+```
+ctrl+x # Save and close nano
 
 4. Start the stack:
 ```bash
@@ -120,13 +120,6 @@ After deployment, services will be available at:
 - Immerse UI: `https://your-domain.com/`
 - JupyterHub: `https://your-domain.com/jupyter`
 
-
-You can adjust GPU allocation in the `.env` file:
-
-```bash
-GPU_COUNT=all  # Number of GPUs to allocate
-GPU_DEVICE_IDS=0  # Specific GPU device IDs to use
-```
 
 ## Security
 
