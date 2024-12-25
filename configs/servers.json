@@ -20,7 +20,7 @@
       "ui/dashboard_grid_margin": 16,
       "ui/start_of_week": "Sunday",
       "ui/enable_auto_dashboard_refresh": true,
-      "ui/hide_deprecated_chart_types": false,
+      "ui/hide_deprecated_chart_types": true,
       
       "ui/enable_new_combo_chart": true,
       "ui/enable_3d_chart": true,
