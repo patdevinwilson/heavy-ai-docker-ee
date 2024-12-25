@@ -29,7 +29,7 @@
       "ui/enable_contour_chart": true,
       "ui/enable_cross_section_chart": true,
       "ui/enable_new_text_chart": true,
-      "ui/enable_windbarb_chart": false,
+      "ui/enable_windbarb_chart": true,
       "ui/enable_chart_filter_view": true,
       "ui/enable_chart_addons": true,
       "ui/enable_crossfilter_replay": true,
