@@ -97,6 +97,13 @@ services:
       - heavy-network
     expose:
       - "${HEAVYIQ_PORT}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: ${GPU_COUNT}
+              capabilities: [gpu]
     env_file: .env
 
   jupyterhub:
