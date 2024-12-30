@@ -3,9 +3,9 @@
 echo "Creating required directories..."
 
 # Create HeavyAI directories with proper permissions
-# mkdir -p "${HEAVY_STORAGE_DIR}" && chmod 755 "${HEAVY_STORAGE_DIR}"
-# mkdir -p "${HEAVYDB_IMPORT_PATH}" && chmod 755 "${HEAVYDB_IMPORT_PATH}"
-# mkdir -p "${HEAVYDB_EXPORT_PATH}" && chmod 755 "${HEAVYDB_EXPORT_PATH}"
+mkdir -p "${HEAVY_STORAGE_DIR}" && chmod 755 "${HEAVY_STORAGE_DIR}"
+mkdir -p "${HEAVYDB_IMPORT_PATH}" && chmod 755 "${HEAVYDB_IMPORT_PATH}"
+mkdir -p "${HEAVYDB_EXPORT_PATH}" && chmod 755 "${HEAVYDB_EXPORT_PATH}"
 mkdir -p "${HEAVY_IQ_LOCATION}/log" && chmod 755 "${HEAVY_IQ_LOCATION}/log"
 mkdir -p "${HEAVY_IMMERSE_LOCATION}" && chmod 755 "${HEAVY_IMMERSE_LOCATION}"
 
