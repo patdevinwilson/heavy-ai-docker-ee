@@ -29,14 +29,12 @@ services:
       config-watcher:
         condition: service_healthy
     entrypoint: >
-      /bin/bash -c "mkdir -p ${HEAVY_STORAGE_DIR} &&
-      mkdir -p ${HEAVYDB_IMPORT_PATH} &&
-      mkdir -p ${HEAVYDB_EXPORT_PATH} &&
-      chmod -R 755 ${HEAVY_STORAGE_DIR} &&
-      chmod -R 755 ${HEAVYDB_IMPORT_PATH} &&
-      chmod -R 755 ${HEAVYDB_EXPORT_PATH} &&
-      [ -f ${HEAVY_STORAGE_DIR}/catalogs/system_catalog ] || 
-      /opt/heavyai/bin/initheavy --data ${HEAVY_STORAGE_DIR};
+      /bin/bash -c "
+      if [ ! -d ${HEAVY_STORAGE_DIR} ]; then
+        /opt/heavyai/bin/initheavy -f --data ${HEAVY_STORAGE_DIR};
+      else
+        /opt/heavyai/bin/initheavy --data ${HEAVY_STORAGE_DIR};
+      fi;
       /opt/heavyai/bin/heavydb --config ${HEAVYDB_CONFIG_FILE}"
     volumes:
       - ${HEAVY_CONFIG_BASE}:${HEAVY_CONFIG_BASE}
