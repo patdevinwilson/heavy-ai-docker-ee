@@ -30,7 +30,7 @@ services:
         condition: service_healthy
     entrypoint: >
       /bin/bash -c "
-      if [ ! -d ${HEAVY_STORAGE_DIR} ]; then
+      if [ ! -d ${HEAVY_STORAGE_DIR}/data ]; then
         /opt/heavyai/bin/initheavy -f --data ${HEAVY_STORAGE_DIR};
       else
         /opt/heavyai/bin/initheavy --data ${HEAVY_STORAGE_DIR};
