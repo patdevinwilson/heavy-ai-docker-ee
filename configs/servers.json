@@ -119,11 +119,6 @@
       "ui/aws-regions": [],
       "ui/enable_shared_color_settings": true,
       "ui/session_create_timeout": 10000
-    },
-    "customStyles": {
-      "title": "GEOMDA-AI Dashboard",
-      "logoURL": "https://raw.githubusercontent.com/geomda-ai/branding/refs/heads/main/Geomdaai_black.png",
-      "darkThemeLogoURL": "https://raw.githubusercontent.com/geomda-ai/branding/refs/heads/main/Geomdaai_white.png"
     }
   }
 ]
