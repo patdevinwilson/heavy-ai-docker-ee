@@ -124,6 +124,104 @@
       "title": "GEOMDA-AI Dashboard",
       "logoURL": "https://raw.githubusercontent.com/geomda-ai/branding/refs/heads/main/Geomdaai_black.png",
       "darkThemeLogoURL": "https://raw.githubusercontent.com/geomda-ai/branding/refs/heads/main/Geomdaai_white.png"
-    }
+    },
+    "mapboxCustomStyles": [
+      {
+        "label": "Google Maps Roadmap",
+        "value": {
+          "version": 8,
+          "sources": {
+            "google-roadmap": {
+              "type": "raster",
+              "tiles": [
+                "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+              ],
+              "tileSize": 256
+            }
+          },
+          "layers": [
+            {
+              "id": "google-roadmap",
+              "type": "raster",
+              "source": "google-roadmap",
+              "minzoom": 0,
+              "maxzoom": 22
+            }
+          ]
+        }
+      },
+      {
+        "label": "Google Maps Satellite",
+        "value": {
+          "version": 8,
+          "sources": {
+            "google-satellite": {
+              "type": "raster",
+              "tiles": [
+                "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+              ],
+              "tileSize": 256
+            }
+          },
+          "layers": [
+            {
+              "id": "google-satellite",
+              "type": "raster",
+              "source": "google-satellite",
+              "minzoom": 0,
+              "maxzoom": 22
+            }
+          ]
+        }
+      },
+      {
+        "label": "Google Maps Terrain",
+        "value": {
+          "version": 8,
+          "sources": {
+            "google-terrain": {
+              "type": "raster",
+              "tiles": [
+                "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}"
+              ],
+              "tileSize": 256
+            }
+          },
+          "layers": [
+            {
+              "id": "google-terrain",
+              "type": "raster",
+              "source": "google-terrain",
+              "minzoom": 0,
+              "maxzoom": 22
+            }
+          ]
+        }
+      },
+      {
+        "label": "Google Maps Hybrid",
+        "value": {
+          "version": 8,
+          "sources": {
+            "google-hybrid": {
+              "type": "raster",
+              "tiles": [
+                "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+              ],
+              "tileSize": 256
+            }
+          },
+          "layers": [
+            {
+              "id": "google-hybrid",
+              "type": "raster",
+              "source": "google-hybrid",
+              "minzoom": 0,
+              "maxzoom": 22
+            }
+          ]
+        }
+      }
+    ]
   }
 ]
