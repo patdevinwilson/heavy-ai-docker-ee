@@ -47,7 +47,7 @@
       
       "ui/enable_dashboard_shared_custom_sql": false,
       "ui/enable_global_custom_sql": false,
-      "ui/enable_custom_source_manager": false,
+      "ui/enable_custom_source_manager": true,
       "ui/enable_data_catalog": true,
       "ui/enable_geo_joins": true,
       "ui/enable_joins": true,
