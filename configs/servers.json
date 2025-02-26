@@ -120,7 +120,7 @@
       "ui/enable_shared_color_settings": true,
       "ui/session_create_timeout": 10000,
       "dev/sql_notebook_cards": {
-        "saudi_analysis": [
+        "heavyai": [
           {
             "text": "Count the heritage sites in all Saudi regions.",
             "dataSources": ["heritage_sites", "regions"]
