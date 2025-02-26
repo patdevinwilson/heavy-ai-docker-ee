@@ -45,8 +45,8 @@
       "ui/max_map_layers": 8,
       "ui/max_zoom_level": 22,
       
-      "ui/enable_dashboard_shared_custom_sql": false,
-      "ui/enable_global_custom_sql": false,
+      "ui/enable_dashboard_shared_custom_sql": true,
+      "ui/enable_global_custom_sql": true,
       "ui/enable_custom_source_manager": true,
       "ui/enable_data_catalog": true,
       "ui/enable_geo_joins": true,
@@ -77,7 +77,7 @@
       "performance/truncate_map_coordinates": true,
       "performance/truncate_map_coordinates_precision": 9,
       "performance/query_cache_duration": 240000,
-      "performance/query_cache_size": 10,
+      "performance/query_cache_size": 50,
       "performance/vega_cache_duration": 240000,
       "performance/vega_cache_size": 40,
       "performance/query_throttle": 10,
@@ -118,7 +118,8 @@
       "ui/enable_cross_section_terrain_chart": true,
       "ui/aws-regions": [],
       "ui/enable_shared_color_settings": true,
-      "ui/session_create_timeout": 10000
+      "ui/session_create_timeout": 10000,
+      "dev/sql_notebook_cards": {}
     },
     "customStyles": {
       "title": "GEOMDA-AI Dashboard",
