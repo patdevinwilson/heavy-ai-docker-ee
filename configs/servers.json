@@ -215,6 +215,10 @@
         }
       },
       {
+        "label": "OSM Liberty (Arabic)",
+        "value": "https://tiles.truemaps.org/styles/osm-liberty-ar/style.json"
+      },
+      {
         "label": "Decimal Traffic",
         "value": {
           "version": 8,
