@@ -9,7 +9,6 @@
       "dev/show_dashboard_versions": false,
       "dev/landing_page_panels": false,
       "dev/enable_notebook_ui_sql_editor": true,
-
       "ui/theme": "dark",
       "ui/colorblind": "off",
       "ui/enable_control_panel_2": true,
@@ -21,7 +20,6 @@
       "ui/start_of_week": "Sunday",
       "ui/enable_auto_dashboard_refresh": true,
       "ui/hide_deprecated_chart_types": true,
-
       "ui/enable_new_combo_chart": true,
       "ui/enable_3d_chart": true,
       "ui/enable_experimental_charts": false,
@@ -34,7 +32,6 @@
       "ui/enable_chart_filter_view": true,
       "ui/enable_chart_addons": true,
       "ui/enable_crossfilter_replay": true,
-      
       "ui/enable_linked_zoom": true,
       "ui/shift_to_zoom": false,
       "ui/enable_map_exports": true,
@@ -44,7 +41,6 @@
       "ui/disable_map_geocoder": false,
       "ui/max_map_layers": 8,
       "ui/max_zoom_level": 22,
-      
       "ui/enable_dashboard_shared_custom_sql": true,
       "ui/enable_global_custom_sql": true,
       "ui/enable_custom_source_manager": true,
@@ -66,7 +62,6 @@
       "ui/linemap_max_lines": 1000000,
       "ui/windbarb_default_points": 4000,
       "ui/windbarb_max_points": 10000000,
-
       "ui/3dchart_default_points": 50000,
       "ui/3dchart_max_points": 100000,
       "performance/crossfilter_pause_button": true,
@@ -107,7 +102,6 @@
       "ui/hide_text_chart_headers": false,
       "ui/hide_charts_containers": false,
       "ui/hide_vega_combo_chart_legend_header": false,
-
       "ui/hide_vega_combo_chart_date_bin_units": false,
       "ui/vega_deterministic_coloring": true,
       "ui/annotations": true,
@@ -115,7 +109,6 @@
       "ui/enable_cross_section_terrain_chart": true,
       "ui/aws-regions": [],
       "ui/enable_shared_color_settings": true,
-      
       "ui/session_create_timeout": 10000,
       "dev/sql_notebook_cards": "{\"heavyai\": [{\"text\": \"Count the heritage sites in all Saudi regions.\", \"dataSources\": [\"heritage_site\", \"regions\"]}, {\"text\": \"Compare the age of heritage sites in Madinah to all other Saudi regions.\", \"dataSources\": [\"heritage_site\", \"regions\"]}, {\"text\": \"Show areas in Madinah with the highest population density during morning (7-9 AM) vs evening (5-7 PM) rush hours using mobility data.\", \"dataSources\": [\"mobility_madinah_geom\"]}, {\"text\": \"Where are the high-density population areas in Madinah during peak hours versus off-peak hours sorted by off-peak, peak, and all others?\", \"dataSources\": [\"mobility_madinah_geom\"]}, {\"text\": \"Compare hourly population density trends in Madinah on weekdays vs weekends.\", \"dataSources\": [\"mobility_madinah_geom\"]}]}"
     },
@@ -310,14 +303,6 @@
               },
               "paint": {
                 "background-color": "hsl(0, 0%, 0%)"
-              }
-            },
-            {
-              "id": "google-traffic-layer",
-              "type": "raster",
-              "source": "google-traffic",
-              "paint": {
-                "raster-opacity": 0.95
               }
             },
             {
@@ -5529,6 +5514,14 @@
                 "text-color": "#50a882"
               },
               "source-layer": "country_label"
+            },
+            {
+              "id": "google-traffic-layer",
+              "type": "raster",
+              "source": "google-traffic",
+              "paint": {
+                "raster-opacity": 0.95
+              }
             }
           ],
           "created": "2017-07-26T16:25:02.904Z",
