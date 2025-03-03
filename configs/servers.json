@@ -224,7 +224,7 @@
       },
       {
         "label": "Decimal Traffic",
-        "value": "https://raw.githubusercontent.com/geomda-ai/basemaps/refs/heads/main/decimal-gmaps-traffic.json"
+        "value": "https://minio.geomda.ai/saudi-arabia-public/basemap/open-styles/decimal-gmaps-traffic.json"
       }
     ]
   }
