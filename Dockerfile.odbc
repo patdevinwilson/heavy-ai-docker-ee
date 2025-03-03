@@ -15,9 +15,9 @@ RUN apt-get update && \
 RUN apt-get update && apt-get install -y odbc-postgresql
 
 # Install Amazon Redshift ODBC driver
-RUN wget https://s3.amazonaws.com/redshift-downloads/drivers/odbc/1.5.16.1019/AmazonRedshiftODBC-64-bit-1.5.16.1019-1.x86_64.deb && \
-    dpkg -i ./AmazonRedshiftODBC-64-bit-1.5.16.1019-1.x86_64.deb && \
-    rm ./AmazonRedshiftODBC-64-bit-1.5.16.1019-1.x86_64.deb
+RUN wget https://s3.amazonaws.com/redshift-downloads/drivers/odbc/1.5.20.1024/AmazonRedshiftODBC-64-bit-1.5.20.1024-1.x86_64.deb && \
+    dpkg -i ./AmazonRedshiftODBC-64-bit-1.5.20.1024-1.x86_64.deb && \
+    rm ./AmazonRedshiftODBC-64-bit-1.5.20.1024-1.x86_64.deb
 
 # Install Snowflake ODBC driver
 RUN wget https://sfc-repo.snowflakecomputing.com/odbc/linux/3.5.0/snowflake-odbc-3.5.0.x86_64.deb && \
