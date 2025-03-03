@@ -194,6 +194,22 @@ Common issues and solutions:
    - Check Caddy logs
    - Ensure ports 80/443 are available
 
+4. Rebuild containers:
+```bash
+docker compose stop
+docker compose down --rmi all
+docker compose build --no-cache
+docker compose up -d
+```
+
+5. Install python packages for heavyiq (v8.5.0 hotfix):
+```bash
+docker exec -it heavyiq bash
+source /opt/heavyai/heavyiq/.venv/bin/activate
+pip install llama-index==0.10.68
+exit
+docker restart heavyiq
+```
 ## References
 - [HEAVY.AI Installation using Docker on Ubuntu](https://docs.heavy.ai/installation-and-configuration/installation/install-docker/docker-enterprise-edition-gpu)
 - [Install NVIDIA Drivers and Vulkan on Ubuntu](https://docs.heavy.ai/installation-and-configuration/installation/installing-on-ubuntu/install-nvidia-drivers-and-vulkan-on-ubuntu)
