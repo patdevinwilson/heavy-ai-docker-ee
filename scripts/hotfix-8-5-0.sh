@@ -9,7 +9,8 @@ fi
 # Run commands inside the container
 docker exec -it heavyiq bash -c "\
     source /opt/heavyai/heavyiq/.venv/bin/activate && \
-    pip install llama-index==0.10.68"
+    pip install llama-index==0.10.68 && \
+    pip install llama-index-embeddings-text-embeddings-inference==0.1.4"
 
 # Restart the container
 docker restart heavyiq
