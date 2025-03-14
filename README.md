@@ -62,7 +62,7 @@ A production-ready Docker Compose setup for HeavyAI Enterprise with JupyterHub i
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/geomda-ai/heavy-ai-docker-ee.git
+git clone https://github.com/patdevinwilson/heavy-ai-docker-ee.git
 cd heavy-ai-docker-ee
 ```
 
